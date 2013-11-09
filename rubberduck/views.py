@@ -26,20 +26,30 @@ def sign_up():
         request_data = json.loads(request.data)
         user_data = request_data['user_data']
         access_token = request_data['access_token']
-        import pdb; pdb.set_trace()
+
         # query for user by access token within stored users:
-        # user = firebase.get('/users', access_token)
-        # if user:
+        user = firebase.get('/users', access_token)
+        if user:
+            last_checkin = firebase.get('/users/%s' % (access_token), checkin)
+            # what format is this checkin data in?
+            # get timestamp of checkin.
+            # do some math: was it less than 3 hours ago?
+            
+
             # if found, log in to app if user has checked in within the last 3 hours
             # double-check that you're at the location we think you're at...
             # if not checked in, prompt to check in with 4sq before accessing site for help
-            # pass
-        # else:
-        # create a new user object
-        new_user = access_token
-        user = firebase.post('/users', new_user)
+            pass
+        else:
+            # create a new user object
+            new_user = access_token
+            user_name = user_data['firstName'] + " " + user_data['lastName']
+            # put user data into firebase user object
+            user = firebase.put('/users', new_user, new_user)
+            firebase.put('/users/%s' %(user), 'name', user_name)
+            firebase.put('/users/%s' %(user), 'photo', user_data['photo'])
 
-        print user
+            print user
 
         # return redirect(auth_uri)
 
