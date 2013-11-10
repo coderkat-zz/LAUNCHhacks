@@ -20,6 +20,10 @@ client_secret = keepitsecret.foursquare_client_secret
 # # Build the authorization url for your app
 auth_uri = "https://foursquare.com/oauth2/authenticate?client_id=" + client_id + "&response_type=code&redirect_uri=http://localhost:5000/codesocial"
 
+@app.route('/')
+def index():
+    return redirect(url_for('sign_up'))
+
 
 @app.route('/index', methods=['POST', 'GET'])
 def sign_up():
@@ -88,6 +92,10 @@ def codesocial():
                 users_at_venue = firebase.get('/venues/%s' % (current_venue), None)
                 if users_at_venue:
                     users_count = len(users_at_venue.keys())
+                    helper_phones = []
+                    for key, value in users_at_venue.iteritems():
+                        helper_phone = firebase.get('/users/%s' % (key), 'phone')
+                        helper_phones.append(helper_phone)
 
                 # calculate time since user's last checkin
                 checkin_time = firebase.get('/users/%s' % (user_id), 'lastcheckintime')
@@ -108,6 +116,7 @@ def codesocial():
                                         user = user,
                                         venue=current_venue,
                                         other_users=users_at_venue,
+                                        helper_phones=map(json.dumps, helper_phones),
                                         check_checkin=check_checkin,
                                         users_count=users_count,
                                         access_token=access_token,
