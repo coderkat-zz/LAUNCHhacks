@@ -1,22 +1,77 @@
-<head>
-    <script src="http://code.jquery.com/jquery-1.9.1.js">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+        <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
 
-    </script>
-</head>
+    <title>RubberDuck - Find Technical Help</title>
 
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
 
+    <!-- Custom styles for this template -->
+    <link href="../static/css/navbar-fixed-top.css" rel="stylesheet">
 
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
 
+<body>
+    <div class="navbar navbar-fixed-top center">
+            <div class="navbar-inner" style="background-color:#00aedc" >
+                    <ul class="nav" >
+                            <li><img src="../static/img/rubber_duck.png" style="margin: 10px 0px";></li>
+                            <li><a href="#" class="brand" >RubberDuck</a></li>
+                    </ul>
+            </div>
+    </div>
+<div style="background-color: #E8E8E8; margin-top:70px">
+    <div class="container">
 
-{% block content %}
+  <div class="row" >
+    <div class="col-md-6 pad">
+                    <div class="box">
+                            <div class="tbpad20 lrpad40 ta">
+                                    <h1>'GET' 10 min of help when you need it</h1>
+                            </div>
+                            <div>
+                                    <img class="img-responsive middle" src="../static/img/map.png">
+                            </div>
+                          <article>
+                            <div id="helpbutton" class="tbpad20" style="text-align: center">
+                            </div>
+                        </article>
+                    </div>
+            </div><!-- /.col-lg-4 -->
+    <div class="col-md-6 pad">
+                    <div class="box pad">
+                            <div class="row middle">
+                                                    <img class="middle" style="padding: 20px 20px 0 20px " src="../static/img/pin.png">
+                                            <h2 class="ta">Find Help for Your Technical Projects at Your Location</h2>
+                            </div>
+                            <div class="row middle">        
+                                            <img class=" middle" style=" padding: 30px 20px 0 20px" src="../static/img/award.png">
+                                            <h2 class="ta">Earn Karma for Helping Others</h2>
+                                            <h2 clss="ta">Spend It to Get Help</h2>
+                            </div>  
+                    </div>
+            </div><!-- /.col-lg-4 -->
+  </div><!-- /.row -->
+    </div>
+</div>
 
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 
-<h1>Welcome to WhateverNameWePick</h1>
-<h2>Sign in with Foursquare!</h2>
-<article></article>
-
-
-{% endblock %}
 
 <script>
 var clientId = '{{ client_id }}',
@@ -68,6 +123,11 @@ if(access_token){
     client_id = clientId
     redirect_uri = 'http://localhost:5000/index';
     auth_url = 'https://foursquare.com/oauth2/authenticate?client_id=' + client_id + '&response_type=token&redirect_uri=' + redirect_uri;
-    $('article').html('<a href="' + auth_url + '" target=""><img src="https://playfoursquare.s3.amazonaws.com/press/logo/connect-blue@2x.png"></a>');
+
+    $('article').html('<div class="tbpad20" style="text-align: center"><button onclick="window.location=\'' + auth_url + '\'" type="button" class="btn btn-primary btn-lg mg" >Find Helpers Nearby</button></div>');
+
 }
 </script>
+
+</body>
+</html>

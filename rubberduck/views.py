@@ -114,6 +114,7 @@ def codesocial():
                 # pass that data to the template, use Jinja logic to decide what to render on the page...
                 return render_template('codesocial.html',
                                         user = user,
+                                        user_json=json.dumps(user),
                                         venue=current_venue,
                                         other_users=users_at_venue,
                                         helper_phones=map(json.dumps, helper_phones),
@@ -139,6 +140,12 @@ def save_phone():
 
 
     return 'newurl'
+
+
+@app.route('/helpisontheway')
+def helpout():
+        # helper is responding to request for help
+        return render_template('helpisontheway.html')
 
 
 app.secret_key = keepitsecret.flask_key
