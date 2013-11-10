@@ -25,7 +25,7 @@ function sendSMSForHelp(helperPhones) {
             textMessage:$textMessage
         }, {
             success:function(response) {
-    			console.log('success');
+                window.location.href = "http://localhost:5000/helpisontheway";
             },
             error: function(response) {
                 console.log('error');
