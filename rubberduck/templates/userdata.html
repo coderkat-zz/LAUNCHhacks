@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<script>
+function greeting()
+{
+alert("Thanks! Don't forget to check in to your location on Foursquare!")
+}
+</script>
+<html>
+<head>a thing</head>
+
+
+Oh hi there! Welcome to our app.<br />
+
+Looks like we need your phone number <br />
+in order to connect you with <br />
+awesome people.
+
+
+ <form id='form' name="phone" action="{{ url_for('save_phone') }}" method="post" onSubmit="greeting()">
+    <p>
+        Please enter your cell phone number:<br>
+        <input type="text" name="phone_number"><br />
+        <input type="hidden" name="user" value="{{ user }}">
+    </p>
+        <input type="submit" value="Submit">
+</form>
+
+</html>

@@ -1,11 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head></head>
-This is where we'll put how many users are in your venue: <br />
-{{ user }} <br />
-{{ venue }} <br />
-{{ other_users }} <br />
-{{ check_checkin }} <br />
+<head>
+    <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="//www.parsecdn.com/js/parse-1.1.15.min.js"></script>
+    <script src="static/js/app.js"></script>
+</head>
+<body>
 
-Plus a button
+
+This is where we'll put how many users are in your venue, {{ user['name'] }}! <br />
+
+<div id='venue'>
+Looks like you're at 
+  <div id='venue_details'><br /></di>
+
+{% if check_checkin %}
+{{ check_checkin }}
+It's been longer than 3 hours since you checked in. Check in again to update your location, and
+{% endif %}
+if your location has changed, please check in with Foursquare!<br />
+
+</div>
+
+
+{% if users_count > 1 %}
+There are {{ users_count }} people here to help you!!!<br />
+ {% elif users_count == 1%}
+There is {{ users_count }} person here to help you!!!<br />
+ {% else %}
+Bummer! No one else is here right now. Try checking in later.<br />
+{% endif %}
+
+
+<br />
+other user id/checkin_times for our later user (?):
+{{ other_users }} <br />
+
+  <form>
+    <input id="submit" type="submit" value="Get Help" onClick="sendSMSForHelp();return false;"/>
+  </form>
+
 </html>
+
+<script>
+var clientId = '{{ client_id }}',
+    clientSecret = '{{ client_secret }}',
+    access_token = '{{ access_token }}',
+    base_url = 'https://api.foursquare.com/v2/venues/',
+    venue = '{{ venue }}',
+    url = base_url.concat(venue);
+if(venue){
+    $.ajax({
+        url:url,
+        data: {oauth_token:access_token},
+        success:function(user_data) {
+            var venue = user_data.response.venue['name'],
+                toAppend = document.getElementById('venue_details');
+
+            toAppend.innerHTML = venue;
+            // var location_name = user_data.response.venue.name
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.error(errorThrown);
+        }
+    });
+}
+
+
+</script>
