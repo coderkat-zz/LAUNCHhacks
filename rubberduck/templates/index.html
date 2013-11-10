@@ -5,6 +5,8 @@
 </head>
 
 {% block content %}
+
+
 <h1>Welcome to WhateverNameWePick</h1>
 <h2>Sign in with Foursquare!</h2>
 <article></article>
@@ -25,20 +27,33 @@ if (start > 0) {
     start = start + search.length
     access_token = uri.slice(start);
 }
+//  OR: try this as a flask form submission?
+//  OR: can I put this data into Firebase form the ajax?
 
 if(access_token){
     $.ajax({
         url:'https://api.foursquare.com/v2/users/self',
         data: {oauth_token:access_token},
+        //  can I make this callback add hidden form field to the page
         success:function(user_data) {
             user_data = user_data.response.user
+            // Add hidden form field to the page
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost:5000/index',
                 data: JSON.stringify({'user_data':user_data, 'access_token':access_token}),
                 dataType: JSON,
-                contentType: 'application/json;charset=UTF-8'
+                contentType: 'application/json;charset=UTF-8',
+                success: function() {
+                    console.log('got it');
+                    window.location = 'http://localhost:5000/codesocial';
+                },
+                error: function() {
+                    console.log('failed');
+                    window.location = 'http://localhost:5000/codesocial';
+                }
             })
+            // .delay(800).done(window.location = 'http://localhost:5000/codesocial');
         },
         error: function(jqXHR, textStatus, errorThrown){
             console.error(errorThrown);

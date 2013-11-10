@@ -1,7 +1,10 @@
 from rubberduck import app
 import keepitsecret
 from firebase import firebase
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, session
+from flask_wtf import Form
+from wtforms import TextField
+from wtforms.validators import DataRequired
 # import foursquare
 import json
 
@@ -20,18 +23,20 @@ auth_uri = "https://foursquare.com/oauth2/authenticate?client_id=" + client_id +
 @app.route('/index', methods=['POST', 'GET'])
 def sign_up():
     if request.method == 'GET':
+        # or if this is a GET request with request.data, can we treat that as a form submission?
         return render_template('index.html', client_id=client_id, client_secret=client_secret)
     else:
         # handle POSTed data from foursquare
         request_data = json.loads(request.data)
         user_data = request_data['user_data']
         access_token = request_data['access_token']
+        user_id = user_data['id']
 
-        # query for user by access token within stored users:
-        user = firebase.get('/users', access_token)
+        # query for user by id within stored users:
+        user = firebase.get('/users', user_id)
+
         if user:
-
-            print user
+            session['user_id'] = user_data['id']
             # last_checkin = firebase.get('/users/%s' % (access_token), checkin)
             # what format is this checkin data in?
             # get timestamp of checkin.
@@ -40,24 +45,57 @@ def sign_up():
             # if so, consider user logged in already and start that floww
             # print last_checkin
             # if not checked in, prompt to check in with 4sq (is on a separate page) before accessing site for help
-
+            # return redirect(url_for("codesocial"))
+            return 'string'
         else:
+            print('creating a new user object')
             # create a new user object
-            new_user = access_token
             user_name = user_data['firstName'] + " " + user_data['lastName']
-            # put user data into firebase user object
-            user = firebase.put('/users', new_user, new_user)
+            # put user data into firebase user objects
+            user = firebase.put('/users', user_id, user_id)
+            firebase.put('/users/%s' %(user), 'access_token', access_token)
             firebase.put('/users/%s' %(user), 'name', user_name)
             firebase.put('/users/%s' %(user), 'photo', user_data['photo'])
             # set up user w/3 karma points
-            print user
+            session['user_id'] = user_id
+
+            return 'string'
             # redirect to some sort of user settings page
             # form inputs for (later: skills) and (now:MVP)phone number
             # submit form and send them to check-in reminder page
-        return redirect(url_for("codesocial"))
+            # return redirect(url_for("codesocial"))
+        return 'hey'
 
 
-
-@app.route('/codesocial', methods=['GET'])
+@app.route('/codesocial')
 def codesocial():
-    return render_template('codesocial.html')
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = firebase.get('/users', user_id)
+        has_phone = user.get('phone')
+        print has_phone
+        if has_phone == None:
+            return render_template('userdata.html', user = user_id)
+        else:
+            return render_template('codesocial.html', user = user)
+    else:
+        return redirect(url_for('sign_up'))
+
+@app.route('/save_phone', methods=['POST'])
+def save_phone():
+
+    if request.method == 'POST':
+        phone = request.form['phone_number']
+        user_info = request.form['user']
+
+        # user = firebase.get('/users', user_info)
+        firebase.put('/users/%s' %(user_info), 'phone', phone)
+
+        return redirect(url_for('codesocial'))
+
+
+
+    return 'newurl'
+
+
+app.secret_key = keepitsecret.flask_key
