@@ -26,7 +26,7 @@
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="//www.parsecdn.com/js/parse-1.1.15.min.js"></script>
-    <script src="static/js/app.js"></script>
+    <script src="../static/js/app.js"></script>
 </head>
 
 
@@ -36,55 +36,51 @@
 
   <body>
 
-  
+
       <div class="navbar navbar-fixed-top center">
               <div class="navbar-inner" style="background-color:#00aedc" >
                       <ul class="nav">
-                              <li><img src="img/rubber_duck.png" style="margin: 10px 0px"></li>
+                              <li><img src="../static/img/Rubber_Ruck.png" style="margin: 10px 0px"></li>
                       </ul>
               </div>
 </div>
 <div style="background-color: #E8E8E8; margin-top: 70px">  
   <div class="container">
-    
+
     <div class="row">
       <div class="col-lg-6 pad" >
-                          <div class="box pad">
-                                  <h1>You are checked in at ______</h1><!--Kat>"VENDOR_NAME"</Kat-->
+          <div class="box pad">
+              <h1>You are checked in at<br />
+                <div id='venue_details'></di>
+              </h1>
           <div class="img-responsive"id="map-canvas" style="margin-right: auto; margin-left: auto"></div>
                                   <img class="img-responsive" src="img/map.png">
                           </div>
                   </div><!-- /.col-lg-4 -->
-    
+
       <div class="col-lg-6 pad">
         <div class="box pad ">
-          
+
           <div class="middle">
             <h2 class="ta">Helpers on Location</h2>
-            <div class="numberCircle" style= "align:center">5</div><!--Kat>"ENTER # OF HELPERS"</Kat-->
+                <div class="numberCircle" style= "align:center">
+                {% if users_count == 0 %}
+                Bummer! No one is currently at your location. <br />
+                Keep working: we believe in you!
+                {% else %}
+                {{ users_count }}
+                {% endif %}
+                </div>
 
             <h2 class="ta">Your Karma Points</h2>
             <div class="numberCircle">3</div><!--Kat>"ENTER # OF KARMA POINTS"</Kat-->
 
             <h2 class="ta">Request Help</h2>
-            <button type="button" style="width: 80%"class="btn btn-lg btn-primary">Click Here</button>
+                <button type="button" style="width: 80%"class="btn btn-lg btn-primary" input id="submit" type="submit" value="Click Here" onClick="sendSMSForHelp({{ helper_phones }});return false;">Click Here</button>
           </div>
         </div>
-      <!-- <div class="box pad">
-        <div class="pad">
-                                      <img class="fl" src="img/pin.png">
-                              </div>
-        <div>
-                                      <h2>This is some test text that explains how you get help</h2>
-                              </div>
-        <div class="pad">
-                                      <img class="fl" src="img/award.png">
-                              </div>
-        <div>
-                                      <h2>This is a test that explains why someone would help</h2>
-                              </div> -->
-                      </div>
-                </div><!-- /.col-lg-4 -->
+      </div>
+    </div><!-- /.col-lg-4 -->
 
   </div><!-- /.row -->
 
@@ -97,44 +93,11 @@
   </body>
 </html>
 
-<!-- 
 
-{{ user['phone'] }}
-{{ helper_phones }}
-
-This is where we'll put how many users are in your venue, {{ user['name'] }}! <br />
-
-<div id='venue'>
-Looks like you're at 
-  <div id='venue_details'><br /></di>
-
-{% if check_checkin %}
-{{ check_checkin }}
-It's been longer than 3 hours since you checked in. Check in again to update your location, and
-{% endif %}
-if your location has changed, please check in with Foursquare!<br />
-
-</div>
-
-
-{% if users_count > 1 %}
-There are {{ users_count }} people here to help you!!!<br />
- {% elif users_count == 1%}
-There is {{ users_count }} person here to help you!!!<br />
- {% else %}
-Bummer! No one else is here right now. Try checking in later.<br />
-{% endif %}
-
-
-<br />
-other user id/checkin_times for our later user (?):
-{{ other_users }} <br />
-
- -->
-  <form>
+<!--   <form>
     <input id="submit" type="submit" value="Get Help" onClick="sendSMSForHelp({{ helper_phones }});return false;"/>
   </form>
-
+ -->
 </html>
 
 <script>

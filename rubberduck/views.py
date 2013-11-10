@@ -91,7 +91,7 @@ def codesocial():
                 # get the dictionary of users whose last checkin was this venue {user_id:checkintime}
                 users_at_venue = firebase.get('/venues/%s' % (current_venue), None)
                 if users_at_venue:
-                    users_count = len(users_at_venue.keys())
+                    users_count = len(users_at_venue.keys()) - 1
                     helper_phones = []
                     for key, value in users_at_venue.iteritems():
                         helper_phone = firebase.get('/users/%s' % (key), 'phone')
