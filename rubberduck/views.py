@@ -5,8 +5,9 @@ from flask import request, render_template, redirect, url_for, session
 from flask_wtf import Form
 from wtforms import TextField
 from wtforms.validators import DataRequired
-# import foursquare
+import foursquare
 import json
+import time
 
 firebase = firebase.FirebaseApplication('https://hacksocial.firebaseio.com/', authentication=None)
 
@@ -77,7 +78,29 @@ def codesocial():
         if has_phone == None:
             return render_template('userdata.html', user = user_id)
         else:
-            return render_template('codesocial.html', user = user)
+            # get location id of most recent check-in
+            current_venue = firebase.get('/users/%s' % (user_id), 'lastcheckinvenueid')
+
+            print('!!!!')
+            # print client.venues(current_venue)
+
+            # get the dictionary of users whose last checkin was this venue {user_id:checkintime}
+            users_at_venue = firebase.get('/venues/%s' % (current_venue), None)
+
+            # calculate time since user's last checkin
+            checkin_time = firebase.get('/users/%s' % (user_id), 'lastcheckintime')
+            current_time = time.time()
+            time_elapsed = current_time - checkin_time
+
+            # check to see if it's been more than 3 hours since the last checkin
+            if time_elapsed >= 10800:
+                # Ask user to check in if they're somewhere new?
+                check_checkin = True
+            else:
+                check_checkin = False
+
+            # pass that data to the template, use Jinja logic to decide what to render on the page...
+            return render_template('codesocial.html', user = user, venue=current_venue, other_users=users_at_venue, check_checkin=check_checkin)
     else:
         return redirect(url_for('sign_up'))
 
