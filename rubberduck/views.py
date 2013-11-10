@@ -78,7 +78,7 @@ def codesocial():
         user_id = session['user_id']
         user = firebase.get('/users', user_id)
         has_phone = user.get('phone')
-        print has_phone
+
         if has_phone == None:
             return render_template('userdata.html', user = user_id)
         else:
@@ -94,8 +94,12 @@ def codesocial():
                     users_count = len(users_at_venue.keys()) - 1
                     helper_phones = []
                     for key, value in users_at_venue.iteritems():
-                        helper_phone = firebase.get('/users/%s' % (key), 'phone')
-                        helper_phones.append(helper_phone)
+                        if key == user_id:
+                            print key
+                            continue
+                        else:
+                            helper_phone = firebase.get('/users/%s' % (key), 'phone')
+                            helper_phones.append(helper_phone)
 
                 # calculate time since user's last checkin
                 checkin_time = firebase.get('/users/%s' % (user_id), 'lastcheckintime')
