@@ -14,7 +14,7 @@ function sendSMSForHelp(helperPhones) {
     var $phoneNumber = helperPhones; //actual variable setting
     // var $phoneNumber = "6263197945"; //Graham
 //    var $phoneNumber = "4089406688"; //Mary
-    var $textMessage = "Someone needs help!";
+    var $textMessage = "Someone needs help! Reply to this text to get in touch with them.";
 
     for (var i = 0; i < helperPhones.length; i++) {
         //Handle the SMS form

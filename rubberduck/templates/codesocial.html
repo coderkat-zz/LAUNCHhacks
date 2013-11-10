@@ -31,31 +31,29 @@
 </head>
 
 
-
-
 <body>
-
-  <body>
-
-
-      <div class="navbar navbar-fixed-top center">
-              <div class="navbar-inner" style="background-color:#00aedc" >
-                      <ul class="nav">
-                              <li><img src="../static/img/Rubber_Ruck.png" style="margin: 10px 0px"></li>
-                      </ul>
-              </div>
-</div>
+    <div class="navbar navbar-fixed-top center">
+        <div class="navbar-inner" style="background-color:#00aedc" >
+            <ul class="nav">
+              <li><img src="../static/img/Rubber_Duck.png" style="margin: 10px 0px"></li>
+            </ul>
+        </div>
+    </div>
 <div style="background-color: #E8E8E8; margin-top: 70px">  
   <div class="container">
 
     <div class="row">
       <div class="col-lg-6 pad" >
           <div class="box pad">
+            <div class="middle">
               <h1>You are checked in at<br />
-                <div id='venue_details'></di>
+                <div id='venue_details'></div>
               </h1>
-          <div class="img-responsive"id="map-canvas" style="margin-right: auto; margin-left: auto; width:515px; height:291px"></div>
+          <div class="img-responsive"id="map-\canvas" style="margin-right: auto; margin-left: auto; width:515px; height:291px"></div>
                   </div><!-- /.col-lg-4 -->
+          </div>
+      </div>
+      </div>
 
       <div class="col-lg-6 pad">
         <div class="box pad ">
@@ -79,25 +77,17 @@
           </div>
         </div>
       </div>
-    </div><!-- /.col-lg-4 -->
+    </div>
 
-  </div><!-- /.row -->
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-  </body>
-</html>
+  </div>
 
 
-<!--   <form>
-    <input id="submit" type="submit" value="Get Help" onClick="sendSMSForHelp({{ helper_phones }});return false;"/>
-  </form>
- -->
-</html>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+
 
 <script>
 var clientId = '{{ client_id }}',
@@ -128,9 +118,7 @@ if(venue){
             console.error(errorThrown);
         }
     });
-}
-
-        
+}        
         
       function initializeMap(lat, lon) {
         console.log("lat " + lat + " lon " + lon);
@@ -157,3 +145,5 @@ if(venue){
 
 
 </script>
+</body>
+</html>
