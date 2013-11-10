@@ -1,7 +1,7 @@
 from rubberduck import app
 import keepitsecret
 from firebase import firebase
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, url_for
 # import foursquare
 import json
 
@@ -30,16 +30,17 @@ def sign_up():
         # query for user by access token within stored users:
         user = firebase.get('/users', access_token)
         if user:
-            last_checkin = firebase.get('/users/%s' % (access_token), checkin)
+
+            print user
+            # last_checkin = firebase.get('/users/%s' % (access_token), checkin)
             # what format is this checkin data in?
             # get timestamp of checkin.
             # do some math: was it less than 3 hours ago?
-            
+            # double-check that you're at the location we think you're at?
+            # if so, consider user logged in already and start that floww
+            # print last_checkin
+            # if not checked in, prompt to check in with 4sq (is on a separate page) before accessing site for help
 
-            # if found, log in to app if user has checked in within the last 3 hours
-            # double-check that you're at the location we think you're at...
-            # if not checked in, prompt to check in with 4sq before accessing site for help
-            pass
         else:
             # create a new user object
             new_user = access_token
@@ -48,30 +49,15 @@ def sign_up():
             user = firebase.put('/users', new_user, new_user)
             firebase.put('/users/%s' %(user), 'name', user_name)
             firebase.put('/users/%s' %(user), 'photo', user_data['photo'])
-
+            # set up user w/3 karma points
             print user
-
-        # return redirect(auth_uri)
-
-        # prompt user for foursquare oauth
-        # write whatever data we need(???) to firebase
-        # sent user to codesocial page
-        # return render_template('codesocial.html')
+            # redirect to some sort of user settings page
+            # form inputs for (later: skills) and (now:MVP)phone number
+            # submit form and send them to check-in reminder page
+        return redirect(url_for("codesocial"))
 
 
 
-@app.route('/codesocial')
+@app.route('/codesocial', methods=['GET'])
 def codesocial():
-    
-    # query_string = request.query_string
-
-    # access_token = client.oauth.get_token(query_string[5:])
-    # # Apply the returned access token to the client
-    # client.set_access_token(access_token)
-    # # Get the user's data
-    # user = client.users()
-    # print user
-    # find user in firebase, append fsq token data to user object
-    # firebase.post('users/%s/' % (user_name))
-    # view how many users are checked in to your location
     return render_template('codesocial.html')
