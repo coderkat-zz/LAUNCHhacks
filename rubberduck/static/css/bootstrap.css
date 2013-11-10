@@ -6718,6 +6718,28 @@ p, h1, h2, h3{
 	text-align:center;
 }
 /* End Graham's Edits */
+
+/* Start Alex's Edits */
+.numberCircle {
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    behavior: url(PIE.htc);
+    margin-right: auto;
+    margin-left:auto;
+
+    width: 120px ;
+    height: 120px;
+    /*padding: 10px;*/
+    
+    background: #00aedc;
+    border: 2px solid #00aedc;
+    color: #fff;
+    text-align: center;
+    
+    font: 100px Arial, sans-serif
+}
+/* End Alex's Edits */
 @media (min-width: 768px) and (max-width: 991px) {
   .visible-xs.visible-sm {
     display: block !important;
