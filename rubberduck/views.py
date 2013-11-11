@@ -139,12 +139,16 @@ def save_phone():
         # user = firebase.get('/users', user_info)
         firebase.put('/users/%s' %(user_info), 'phone', phone)
 
-        return redirect(url_for('codesocial'))
+        return redirect(url_for('checkin'))
 
 
 
     return 'newurl'
 
+@app.route('/checkin')
+def checkin():
+
+    return render_template('checkin.html')
 
 @app.route('/helpisontheway')
 def helpout():
