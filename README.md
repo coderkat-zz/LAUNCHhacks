@@ -12,6 +12,17 @@ real space and time! We use Firebase, Foursquare and Twilio's API
 to connect users in the real world.
 
 ----
+TODO:
+Get this working again!
+- write tests (unit and integration)
+- a lot is broken! Make a complete list
+    - check for broken APIs and services
+    - update to python3
+- make sure everything Works
+- deploy!
+
+
+----
 
 To run locally, you will have to make sure that firebase is installed! 
 You can do this, you may need to install npm:
